@@ -1,5 +1,6 @@
 package com.algaworks.algalog.domain.model;
 
+import com.algaworks.algalog.domain.ValidationGroups;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Getter;
@@ -7,8 +8,12 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Getter
@@ -20,12 +25,18 @@ public class Delivery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Valid
+    @ConvertGroup(from = Default.class, to = ValidationGroups.ClientId.class)
+    @NotNull
     @ManyToOne
     private Client client;
 
+    @Valid
+    @NotNull
     @Embedded
     private Destination destination;
 
+    @NotNull
     private BigDecimal fee;
 
     @JsonProperty(access = Access.READ_ONLY)
@@ -33,10 +44,10 @@ public class Delivery {
     private DeliveryStatus status;
 
     @JsonProperty(access = Access.READ_ONLY)
-    private LocalDateTime orderDate;
+    private OffsetDateTime orderDate;
 
     @JsonProperty(access = Access.READ_ONLY)
-    private LocalDateTime finishOrder;
+    private OffsetDateTime finishOrder;
 
     @Override
     public boolean equals(Object o) {

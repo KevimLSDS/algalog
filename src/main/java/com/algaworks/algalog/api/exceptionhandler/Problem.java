@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @JsonInclude(Include.NON_NULL)
@@ -15,7 +15,7 @@ import java.util.List;
 public class Problem {
 
     private Integer httpStatus;
-    private LocalDateTime dateTime;
+    private OffsetDateTime dateTime;
     private String title;
     private List<ErrorField> fieldList;
 
