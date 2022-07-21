@@ -1,5 +1,6 @@
 package com.algaworks.algalog.exceptionhandler;
 
+import com.algaworks.algalog.exception.BusinessException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -11,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -46,5 +48,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         problem.setFieldList(fields);
 
         return handleExceptionInternal(ex, problem, headers, status, request);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Object> handleBusinessException(BusinessException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        Problem problem = new Problem();
+
+        problem.setHttpStatus(status.value());
+        problem.setDateTime(LocalDateTime.now());
+        problem.setTitle(ex.getMessage());
+
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 }
