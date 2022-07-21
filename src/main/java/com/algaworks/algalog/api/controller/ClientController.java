@@ -1,8 +1,8 @@
-package com.algaworks.algalog.controller;
+package com.algaworks.algalog.api.controller;
 
-import com.algaworks.algalog.model.Client;
-import com.algaworks.algalog.repository.ClientRepository;
-import com.algaworks.algalog.service.ClientService;
+import com.algaworks.algalog.domain.model.Client;
+import com.algaworks.algalog.domain.repository.ClientRepository;
+import com.algaworks.algalog.domain.service.ClientService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,6 @@ import java.util.List;
 public class ClientController {
 
     private ClientRepository clientRepository;
-
     private ClientService clientService;
 
     @GetMapping

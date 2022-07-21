@@ -1,7 +1,6 @@
-package com.algaworks.algalog.exceptionhandler;
+package com.algaworks.algalog.api.exceptionhandler;
 
-import com.algaworks.algalog.exception.BusinessException;
-import lombok.AllArgsConstructor;
+import com.algaworks.algalog.domain.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;

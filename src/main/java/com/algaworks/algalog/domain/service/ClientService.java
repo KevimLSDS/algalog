@@ -1,16 +1,17 @@
-package com.algaworks.algalog.service;
+package com.algaworks.algalog.domain.service;
 
-import com.algaworks.algalog.exception.BusinessException;
-import com.algaworks.algalog.model.Client;
-import com.algaworks.algalog.repository.ClientRepository;
+import com.algaworks.algalog.domain.exception.BusinessException;
+import com.algaworks.algalog.domain.model.Client;
+import com.algaworks.algalog.domain.repository.ClientRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@AllArgsConstructor
 @Service
 public class ClientService {
 
-    @Autowired
     ClientRepository clientRepository;
 
     @Transactional
