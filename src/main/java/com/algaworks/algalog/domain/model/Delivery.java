@@ -1,6 +1,7 @@
 package com.algaworks.algalog.domain.model;
 
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -27,11 +28,14 @@ public class Delivery {
 
     private BigDecimal fee;
 
+    @JsonProperty(access = Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
 
+    @JsonProperty(access = Access.READ_ONLY)
     private LocalDateTime orderDate;
 
+    @JsonProperty(access = Access.READ_ONLY)
     private LocalDateTime finishOrder;
 
     @Override

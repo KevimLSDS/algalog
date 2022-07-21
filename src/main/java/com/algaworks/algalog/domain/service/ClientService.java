@@ -4,7 +4,6 @@ import com.algaworks.algalog.domain.exception.BusinessException;
 import com.algaworks.algalog.domain.model.Client;
 import com.algaworks.algalog.domain.repository.ClientRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,5 +30,10 @@ public class ClientService {
     @Transactional
     public void delete(Long clientId) {
         clientRepository.deleteById(clientId);
+    }
+
+    public Client search(Long clientId) {
+        return clientRepository.findById(clientId)
+                .orElseThrow(() -> new BusinessException("Cliente não encontrado!"));
     }
 }
