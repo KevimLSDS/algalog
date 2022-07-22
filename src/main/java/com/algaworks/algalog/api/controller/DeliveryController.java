@@ -1,5 +1,6 @@
 package com.algaworks.algalog.api.controller;
 
+import com.algaworks.algalog.api.assembler.DeliveryAssembler;
 import com.algaworks.algalog.api.model.DeliveryModel;
 import com.algaworks.algalog.domain.model.Delivery;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
@@ -20,39 +21,26 @@ public class DeliveryController {
     private final DeliverySolicitationService deliverySolicitationService;
     private final DeliveryRepository deliveryRepository;
 
+    private final DeliveryAssembler deliveryAssembler;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Delivery request(@RequestBody @Valid Delivery delivery) {
-        return deliverySolicitationService.request(delivery);
+    public DeliveryModel request(@RequestBody @Valid Delivery delivery) {
+        Delivery deliveryToModel = deliverySolicitationService.request(delivery);
+
+        return deliveryAssembler.toModel(deliveryToModel);
     }
 
     @GetMapping
-    public List<Delivery> list() {
-        return deliveryRepository.findAll();
+    public List<DeliveryModel> list() {
+        return deliveryAssembler.toCollectionModel(deliveryRepository.findAll());
     }
 
     @GetMapping("/{deliveryId}")
     public ResponseEntity<DeliveryModel> search(@PathVariable Long deliveryId) {
         return deliveryRepository.findById(deliveryId)
-                .map(delivery -> {
-                    DeliveryModel deliveryModel = new DeliveryModel();
-
-                    deliveryModel.setId(delivery.getId());
-                    deliveryModel.setClientName(delivery.getClient().getName());
-                    deliveryModel.setFee(delivery.getFee());
-                    deliveryModel.setStatus(delivery.getStatus());
-                    deliveryModel.setOrderDate(delivery.getOrderDate());
-                    deliveryModel.setFinishOrder(delivery.getFinishOrder());
-
-                    deliveryModel.getDestination().setName(delivery.getDestination().getName());
-                    deliveryModel.getDestination().setAddress(delivery.getDestination().getAddress());
-                    deliveryModel.getDestination().setNumber(delivery.getDestination().getNumber());
-                    deliveryModel.getDestination().setComplement(delivery.getDestination().getComplement());
-                    deliveryModel.getDestination().setDistrict(delivery.getDestination().getDistrict());
-
-
-                    return ResponseEntity.ok(deliveryModel);
-                }).orElse(ResponseEntity.notFound().build());
+                .map(delivery -> ResponseEntity.ok(deliveryAssembler.toModel(delivery)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }
