@@ -21,7 +21,6 @@ import java.util.Objects;
 @Entity
 public class Client {
 
-    @NotNull(groups = ValidationGroups.ClientId.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,6 +1,7 @@
 package com.algaworks.algalog.api.assembler;
 
 import com.algaworks.algalog.api.model.DeliveryModel;
+import com.algaworks.algalog.api.model.input.DeliveryInput;
 import com.algaworks.algalog.domain.model.Delivery;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,5 +24,9 @@ public class DeliveryAssembler {
         return deliveryList.stream()
                 .map(this::toModel)
                 .collect(Collectors.toList());
+    }
+
+    public Delivery toEntity(DeliveryInput deliveryInput) {
+        return modelMapper.map(deliveryInput, Delivery.class);
     }
 }

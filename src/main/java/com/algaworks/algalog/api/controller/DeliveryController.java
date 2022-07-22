@@ -2,6 +2,7 @@ package com.algaworks.algalog.api.controller;
 
 import com.algaworks.algalog.api.assembler.DeliveryAssembler;
 import com.algaworks.algalog.api.model.DeliveryModel;
+import com.algaworks.algalog.api.model.input.DeliveryInput;
 import com.algaworks.algalog.domain.model.Delivery;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
 import com.algaworks.algalog.domain.service.DeliverySolicitationService;
@@ -25,8 +26,8 @@ public class DeliveryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DeliveryModel request(@RequestBody @Valid Delivery delivery) {
-        Delivery deliveryToModel = deliverySolicitationService.request(delivery);
+    public DeliveryModel request(@RequestBody @Valid DeliveryInput delivery) {
+        Delivery deliveryToModel = deliverySolicitationService.request(deliveryAssembler.toEntity(delivery));
 
         return deliveryAssembler.toModel(deliveryToModel);
     }
