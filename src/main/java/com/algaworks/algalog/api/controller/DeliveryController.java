@@ -1,5 +1,6 @@
 package com.algaworks.algalog.api.controller;
 
+import com.algaworks.algalog.api.model.DeliveryModel;
 import com.algaworks.algalog.domain.model.Delivery;
 import com.algaworks.algalog.domain.repository.DeliveryRepository;
 import com.algaworks.algalog.domain.service.DeliverySolicitationService;
@@ -31,10 +32,27 @@ public class DeliveryController {
     }
 
     @GetMapping("/{deliveryId}")
-    public ResponseEntity<Delivery> search(@PathVariable Long deliveryId) {
+    public ResponseEntity<DeliveryModel> search(@PathVariable Long deliveryId) {
         return deliveryRepository.findById(deliveryId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(delivery -> {
+                    DeliveryModel deliveryModel = new DeliveryModel();
+
+                    deliveryModel.setId(delivery.getId());
+                    deliveryModel.setClientName(delivery.getClient().getName());
+                    deliveryModel.setFee(delivery.getFee());
+                    deliveryModel.setStatus(delivery.getStatus());
+                    deliveryModel.setOrderDate(delivery.getOrderDate());
+                    deliveryModel.setFinishOrder(delivery.getFinishOrder());
+
+                    deliveryModel.getDestination().setName(delivery.getDestination().getName());
+                    deliveryModel.getDestination().setAddress(delivery.getDestination().getAddress());
+                    deliveryModel.getDestination().setNumber(delivery.getDestination().getNumber());
+                    deliveryModel.getDestination().setComplement(delivery.getDestination().getComplement());
+                    deliveryModel.getDestination().setDistrict(delivery.getDestination().getDistrict());
+
+
+                    return ResponseEntity.ok(deliveryModel);
+                }).orElse(ResponseEntity.notFound().build());
     }
 
 }
